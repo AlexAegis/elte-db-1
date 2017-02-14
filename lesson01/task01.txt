@@ -1,0 +1,10 @@
+1) Milyen azonosítójú osztályon dolgoznak a dolgozók? (kiterjesztett vetítés)
+2) Adjuk meg a dolgozók között elõforduló foglalkozások neveit (vetítés,
+     az eredmény halmaz legyen, vagyis minden foglalkozást csak egyszer írjuk ki!)
+3) Kik azok a dolgozók, akiknek a fizetése > 2800? (kiválasztás, elemi feltétel)
+4) Kik azok a dolgozók, akiknek a fizetése 2000 és 4500 között van?
+     (1.mo: kiválasztás, összetett feltétel; 2.mo: where-ben: intervallum)
+5) Kik azok a dolgozók, akik a 10-es vagy a 20-as osztályon dolgoznak?
+     (1.mo: kiválasztás, összetett feltétel; 2.mo: where-ben: in értékek)
+6) Adjuk meg azon dolgozókat, akik nevének második betûje 'A' (where: like)
+7) Kik azok a dolgozók, akiknek a jutaléka ismert? (vagyis nem NULL)

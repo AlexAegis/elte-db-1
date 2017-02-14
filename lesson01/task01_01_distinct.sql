@@ -1,0 +1,1 @@
+select count(distinct oazon) from dolgozo where OAZON is not null;

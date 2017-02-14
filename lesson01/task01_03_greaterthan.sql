@@ -1,0 +1,1 @@
+select * from dolgozo where fizetes > 2800;
