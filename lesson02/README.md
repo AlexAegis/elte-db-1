@@ -1,0 +1,1 @@
+http://people.inf.elte.hu/vzoli/Adatbazisok_1/Gy1-2/
