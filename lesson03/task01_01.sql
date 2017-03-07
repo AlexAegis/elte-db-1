@@ -1,0 +1,10 @@
+SELECT DNEV, DKOD
+FROM DOLGOZO
+WHERE DKOD IN
+(SELECT DISTINCT FONOKE
+FROM DOLGOZO
+WHERE FONOKE IS NOT NULL);
+
+SELECT DISTINCT d1.dnev, d1.dkod
+from dolgozo d1, dolgozo d2
+where d1.dkod = d2.fonoke;
