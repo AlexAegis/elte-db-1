@@ -86,7 +86,7 @@ SELECT DNEV, FIZETES * 2
 FROM DOLGOZO
 WHERE OAZON = 10;
 -- 8) Kik azok a dolgozók, akik 1982.01.01 után léptek be a céghez?
-SELECT DNEV, BELEPES 
+SELECT *
 FROM DOLGOZO
 WHERE BELEPES > DATE '1982-01-01';
 -- 9) Kik azok, akiknek nincs fõnöke?
