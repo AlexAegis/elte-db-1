@@ -8,20 +8,32 @@
 -- RPAD(' ', 3, '#') -> "###"
 -- UPPER("alma") -> ALMA
 -- LOWER("ALMA") -> alma
+-- SYSDATE -> aktuális timestamp
+-- NVL(jutalék, 0) -> ha null, 0-ra cserél
 
 
 -- 1) Kik azok a dolgozók, akik 1982.01.01 után léptek be a céghez?
+SELECT DNEV, BELEPES FROM DOLGOZO WHERE BELEPES > TO_DATE('1982.01.01', 'YYYY.MM.DD');
 -- 2) Adjuk meg azon dolgozókat, akik nevének második betûje 'A'.
+SELECT DNEV FROM DOLGOZO WHERE SUBSTR(DNEV, 2, 1) = 'A';
 -- 3) Adjuk meg azon dolgozókat, akik nevében van legalább két 'L' betû. 
+SELECT DNEV FROM DOLGOZO WHERE INSTR(DNEV,'L', 1, 2) > 0;
+SELECT DNEV FROM DOLGOZO WHERE DNEV LIKE '%L%L%';
 -- 4) Adjuk meg a dolgozók nevének utolsó három betûjét.
+SELECT SUBSTR(DNEV, -3, 3) FROM DOLGOZO;
 -- 5) Adjuk meg a dolgozók fizetéseinek négyzetgyökét két tizedesre, és ennek egészrészét. 
+SELECT DNEV, ROUND(SQRT(FIZETES), 0) FROM DOLGOZO;
 -- 6) Adjuk meg, hogy hány napja dolgozik a cégnél ADAMS és milyen hónapban lépett be.
+SELECT DNEV, ROUND(SYSDATE - BELEPES, 0),TO_CHAR(BELEPES, 'month') FROM DOLGOZO WHERE DNEV = 'ADAMS';
 -- 7) Adjuk meg azokat a (név, fõnök) párokat, ahol a két ember neve ugyanannyi betûbõl áll. 
+SELECT D1.DNEV, D2.DNEV FROM DOLGOZO D1, DOLGOZO D2 WHERE D1.DKOD = D2.FONOKE AND LENGTH(D1.DNEV) = LENGTH(D2.DNEV);
+SELECT D1.DNEV, D2.DNEV FROM DOLGOZO D1 JOIN DOLGOZO D2 ON D1.DKOD = D2.FONOKE AND LENGTH(D1.DNEV) = LENGTH(D2.DNEV);
 -- 8) Listázzuk ki a dolgozók nevét és fizetését, valamint jelenítsük meg a fizetést grafikusan
-  -- a) úgy, hogy a fizetést 1000 Ft-ra kerekítve, minden 1000 Ft-ot egy '#' jel jelöl.
+--    úgy, hogy a fizetést 1000 Ft-ra kerekítve, minden 1000 Ft-ot egy '#' jel jelöl.
+SELECT DNEV, RPAD(' ', SUBSTR(ROUND(FIZETES, -3), 1, 1), '#') FROM DOLGOZO; 
 -- 9) Listázzuk ki azoknak a dolgozóknak a nevét, fizetését, jutalékát, és a jutalék/fizetés
-  -- a) arányát, akiknek a foglalkozása eladó (salesman). Az arányt két tizedesen jelenítsük meg.
-
+--    arányát, akiknek a foglalkozása eladó (salesman). Az arányt két tizedesen jelenítsük meg.
+SELECT DNEV, FIZETES, JUTALEK, ROUND(JUTALEK/FIZETES, 2) FROM DOLGOZO WHERE FOGLALKOZAS = 'SALESMAN';
 
 --Összesítõ függvények, csoportképzés
 -----------------------------------
