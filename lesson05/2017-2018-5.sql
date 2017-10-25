@@ -77,11 +77,11 @@ GROUP BY KATEGORIA HAVING COUNT(KATEGORIA) = 3 ;
 
 -- 15) Adjuk meg azon osztályok nevét és telephelyét, amelyeknek van 1-es fizetési kategóriájú dolgozója.
 SELECT ONEV, TELEPHELY, KATEGORIA, COUNT(KATEGORIA) 
-FROM DOLGOZO NATURAL JOIN OSZTALY JOIN FIZ_KATEGORIA ON FIZETES > ALSO AND FIZETES < FELSO 
+FROM DOLGOZO NATURAL JOIN OSZTALY JOIN FIZ_KATEGORIA ON FIZETES BETWEEN ALSO AND FELSO 
 GROUP BY KATEGORIA, OAZON, ONEV, TELEPHELY HAVING KATEGORIA = 1;
 -- 16) Adjuk meg azon osztályok nevét és telephelyét, amelyeknek legalább 2 fõ 1-es fiz. kategóriájú dolgozója van.
 SELECT ONEV, TELEPHELY, KATEGORIA, COUNT(KATEGORIA) 
-FROM DOLGOZO NATURAL JOIN OSZTALY JOIN FIZ_KATEGORIA ON FIZETES > ALSO AND FIZETES < FELSO 
+FROM DOLGOZO NATURAL JOIN OSZTALY JOIN FIZ_KATEGORIA ON FIZETES BETWEEN ALSO AND FELSO 
 GROUP BY KATEGORIA, OAZON, ONEV, TELEPHELY HAVING KATEGORIA = 1 AND COUNT(KATEGORIA) >= 2;
 -- 17) Készítsünk listát a páros és páratlan azonosítójú (dkod) dolgozók számáról.
 -- 18) Listázzuk ki munkakörönként a dolgozók számát, átlagfizetését (kerekítve) numerikusan és grafikusan is.
