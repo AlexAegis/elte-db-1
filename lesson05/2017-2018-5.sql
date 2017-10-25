@@ -86,3 +86,6 @@ GROUP BY KATEGORIA, OAZON, ONEV, TELEPHELY HAVING KATEGORIA = 1 AND COUNT(KATEGO
 -- 17) Készítsünk listát a páros és páratlan azonosítójú (dkod) dolgozók számáról.
 -- 18) Listázzuk ki munkakörönként a dolgozók számát, átlagfizetését (kerekítve) numerikusan és grafikusan is.
 --     200-anként jelenítsünk meg egy '#'-ot
+SELECT KATEGORIA, COUNT(KATEGORIA), ROUND(AVG(FIZETES), 2), RPAD(' ', ROUND(AVG(FIZETES) / 200, 0) + 1, '#') AS ATLAG_FIZETES
+FROM DOLGOZO JOIN FIZ_KATEGORIA ON FIZETES BETWEEN ALSO AND FELSO 
+GROUP BY KATEGORIA;
