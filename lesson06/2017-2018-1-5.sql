@@ -12,8 +12,9 @@ SELECT ONEV, TELEPHELY FROM DOLGOZO NATURAL JOIN OSZTALY GROUP BY OAZON, ONEV, T
 SELECT KATEGORIA
 FROM DOLGOZO JOIN FIZ_KATEGORIA ON FIZETES BETWEEN ALSO AND FELSO 
 GROUP BY KATEGORIA HAVING COUNT(KATEGORIA) = 3;
--- 7) Adjuk meg azokat a fizetési kategóriákat, amelyekbe esõ dolgozók mindannyian ugyanazon az osztályon dolgoznak.
-
+-- 7) Adjuk meg azokat a fizetési kategóriákat, amelyekbe esõ dolgozók mindannyian ugyanazon az osztályon dolgoznak
+SELECT KATEGORIA FROM DOLGOZO JOIN FIZ_KATEGORIA ON FIZETES BETWEEN ALSO AND FELSO 
+GROUP BY KATEGORIA HAVING COUNT(DISTINCT OAZON) = 1;
 -- 8) Adjuk meg azon osztályok nevét és telephelyét, amelyeknek van 1-es fizetési kategóriájú dolgozója.
 SELECT ONEV, TELEPHELY, KATEGORIA, COUNT(KATEGORIA) 
 FROM DOLGOZO NATURAL JOIN OSZTALY JOIN FIZ_KATEGORIA ON FIZETES BETWEEN ALSO AND FELSO 
@@ -23,19 +24,13 @@ SELECT ONEV, TELEPHELY, KATEGORIA, COUNT(KATEGORIA)
 FROM DOLGOZO NATURAL JOIN OSZTALY JOIN FIZ_KATEGORIA ON FIZETES BETWEEN ALSO AND FELSO 
 GROUP BY KATEGORIA, OAZON, ONEV, TELEPHELY HAVING KATEGORIA = 1 AND COUNT(KATEGORIA) >= 2;
 -- 10) Készítsünk listát a páros és páratlan azonosítójú (dkod) dolgozók számáról.
-
+SELECT COUNT(DISTINCT D1.DKOD) AS EVEN, COUNT(DISTINCT D2.DKOD) AS ODD 
+FROM DOLGOZO D1, DOLGOZO D2 WHERE MOD(D1.DKOD, 2) = 0 AND MOD(D2.DKOD, 2) != 0;
 -- 11) Listázzuk ki munkakörönként a dolgozók számát, átlagfizetését (kerekítve) numerikusan és grafikusan is.
 --     200-anként jelenítsünk meg egy '#'-ot
 SELECT KATEGORIA, COUNT(KATEGORIA), ROUND(AVG(FIZETES), 2), RPAD(' ', ROUND(AVG(FIZETES) / 200, 0) + 1, '#') AS ATLAG_FIZETES
 FROM DOLGOZO JOIN FIZ_KATEGORIA ON FIZETES BETWEEN ALSO AND FELSO 
 GROUP BY KATEGORIA;
--- 12) Adjuk meg azokat a fizetési kategóriákat, amelybe pontosan 3 dolgozó fizetése esik.
-
--- 13) Adjuk meg azokat a fizetési kategóriákat, amelyekbe esõ dolgozók mindannyian ugyanazon az osztályon dolgoznak.
--- 14) Adjuk meg azon osztályok nevét és telephelyét, amelyeknek van 1-es fizetési kategóriájú dolgozója.
--- 15) Adjuk meg azon osztályok nevét és telephelyét, amelyeknek legalább 2 fõ 1-es fiz. kategóriájú dolgozója van.
--- 16) Készítsünk listát a páros és páratlan azonosítójú (dkod) dolgozók számáról.
--- 17) Listázzuk ki munkakörönként a dolgozók számát, átlagfizetését (kerekítve) numerikusan és grafikusan is. 200-anként jelenítsünk meg egy '#'-ot
 
 ------------
 ---SZERET---
