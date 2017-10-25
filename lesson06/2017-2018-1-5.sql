@@ -36,6 +36,12 @@ GROUP BY KATEGORIA;
 ---SZERET---
 ------------
 -- 1) Kik szeretnek minden gyümölcsöt?
+SELECT NEV FROM SZERET 
+MINUS SELECT NEV FROM (
+            SELECT SZ1.NEV, SZ2.GYUMOLCS FROM SZERET SZ1, SZERET SZ2
+            MINUS
+            SELECT * FROM SZERET);
+
 -- 2) Kik azok, akik legalább azokat a gyümölcsöket szeretik, mint Micimackó?
 -- 3) Kik azok, akik legfeljebb azokat a gyümölcsöket szeretik, mint Micimackó?
 -- 4) Kik azok, akik pontosan azokat a gyümölcsöket szeretik, mint Micimackó?
