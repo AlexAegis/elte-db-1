@@ -1,13 +1,47 @@
+DROP TABLE DOLGOZO2;
+CREATE TABLE DOLGOZO2 AS SELECT * FROM DOLGOZO;
+SELECT * FROM DOLGOZO2;
+
+create or replace function prim(n number) return number is
+begin
+    if n < 2 then
+        return 0;
+    end if;
+    -- prim ker
+end;
+/
+
+DECLARE
+    CURSOR CURS1 IS SELECT * FROM DOLGOZO2 ORDER BY DNEV FOR UPDATE;
+    REC CURS1%ROWTYPE;
+    I INTEGER := 0;
+BEGIN
+    FOR REC IN CURS1 LOOP
+       i:=i+1;
+       UPDATE DOLGOZO2 SET SORSZAM = i WHERE CURRENT OF CURS1;
+    END LOOP;
+END;
+/
+
+set serveroutput on;
+DECLARE
+CURSOR CURS1 is select * from dolgozo2 for update;
+rec cur
+
+
+
+
+
 ----------------------------------------------------------------
 /*
 
 Írjunk meg egy plsql procedúrát, amelyik veszi a dolgozókat ábácé szerinti sorrendben, 
 és azon dolgozó nevét és fizetését kiírja akik többet keresnek mint a névsorban elõttük álló.
 */
-CREATE OR REPLACE PROCEDURE procNevsor IS
-Tesztelés:
-set serveroutput on
-call procNevsor();
+--CREATE OR REPLACE PROCEDURE procNevsor IS
+--Tesztelés:
+--set serveroutput on
+--call procNevsor();
 
 ----------------------------------------------------------------
 /*
