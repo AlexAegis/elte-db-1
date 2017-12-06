@@ -50,10 +50,10 @@ SELECT kat_atlag(4) FROM dual;
 Írjunk meg egy plsql procedúrát, amelyik veszi a dolgozókat ábácé szerinti sorrendben, 
 és minden páratlan sorszámú dolgozó nevét és fizetését kiírja
 */
-CREATE OR REPLACE PROCEDURE proc9 IS
+--CREATE OR REPLACE PROCEDURE proc9 IS
 --Tesztelés:
-set serveroutput on
-call proc9();
+--set serveroutput on
+--call proc9();
 
 
 ----------------------------------------------------------------
@@ -63,7 +63,23 @@ nevét és belépési dátumát, akik a felhasználó által megadott osztályon dolgoznak
 A felhasználó az osztály nevének els? bet?jét adja meg (ACCEPT-tel kérjük be). 
 A program írja ki az osztály nevét is. Ha nincs megfelel? osztály, akkor azt írja ki.
 */
-
+set serveroutput on;
+ACCEPT OSZT PROMPT 'ADD MEG AZ OSZTALYT';
+DECLARE
+    CURSOR CURS1 IS SELECT * FROM DOLGOZO NATURAL JOIN OSZTALY;
+    REC CURS1%ROWTYPE;
+BEGIN
+    FOR REC IN CURS1 LOOP
+        IF REC.FIZETES < 900 THEN
+            DBMS_OUTPUT.PUT_LINE(REC.DNEV || ' - csoro');
+        ELSIF REC.FIZETES < 1200 THEN
+            DBMS_OUTPUT.PUT_LINE(REC.DNEV || REC.FIZETES);
+        ELSE
+            DBMS_OUTPUT.PUT_LINE(REC.DNEV || ' - gazdag');
+        END IF;
+    END LOOP;
+END;
+/
 
 ----------------------------------------------------------------
 /* (módosítás)
