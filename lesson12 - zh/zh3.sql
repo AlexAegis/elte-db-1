@@ -1,11 +1,13 @@
 -- 1. feladat 
---  Írj PL/SQL procedúrát
+-- Írj PL/SQL procedúrát ZH1 névvel mely kiírja 
+-- a kapott paraméter összes prímosztóját.
 
 SET SERVEROUTPUT ON
 
 CREATE OR REPLACE FUNCTION IS_PRIME(NO IN NUMBER) RETURN VARCHAR
-IS ANS VARCHAR(5);
-N NUMBER;
+IS 
+    ANS VARCHAR(5);
+    N NUMBER;
 BEGIN
     IF(NO = 1) THEN
         ANS := 'FALSE';
@@ -29,14 +31,13 @@ END;
 CREATE OR REPLACE PROCEDURE ZH1 
 (N IN NUMBER)
 AS 
-    i NUMBER;
-    counter NUMBER;
-    k NUMBER;
+    I NUMBER;
+    K NUMBER;
 BEGIN 
-    i := 2;
-    k := floor(n/2);
-    FOR i IN 1..k LOOP
-        IF (is_prime(i) = 'TRUE' and (mod(n, i) = 0)) THEN
+    I := 2;
+    K := FLOOR(N / 2);
+    FOR I IN 1..K LOOP
+        IF (IS_PRIME(I) = 'TRUE' AND (MOD(N, I) = 0)) THEN
             DBMS_OUTPUT.PUT_LINE(i||' is a prime number which is also a divisor');
         END IF;
     END LOOP;
@@ -47,4 +48,58 @@ CALL ZH1(100);
 DBMS_OUTPUT.ENABLE;
 
 -- 2. feladat
+-- Írj PL/SQL függvényt ZH2 névvel, mely két bemenõ paramétert kap és 
+-- visszadja hány azonos helyen álló egyforma karakterük van. 
+-- Ha a két szó nem egyforma hosszú akkor meg -1-et.
 
+CREATE OR REPLACE FUNCTION ZH2(A IN VARCHAR, B IN VARCHAR) RETURN VARCHAR
+IS
+    ANS NUMBER;
+BEGIN
+    IF(LENGTH(A) != LENGTH(B)) THEN
+        ANS := -1;
+    ELSE
+        ANS := 0;
+        FOR I IN 1..LENGTH(A) LOOP
+            IF (SUBSTR(A, I, 1) = SUBSTR(B, I, 1)) THEN
+                ANS := ANS + 1;
+            END IF;
+        END LOOP;
+    END IF;
+
+    RETURN(ANS);
+END;
+/
+
+SELECT ZH2('ALMA', 'ALMA') FROM DUAL; -- 4
+SELECT ZH2('ALMA', 'ALAL') FROM DUAL; -- 2
+SELECT ZH2('ALMA', 'KÖRTE') FROM DUAL; -- -1
+
+-- 3. feladat
+-- Írj PL/SQL név nélküli blokkot, ami a képernyõre kiírja a Dolgozó tábla azon
+-- dolgozóinak nevét, akik beosztottjai annaka  dolgozónak akit a felhasználó 
+-- INPUT-ként megadott, a foglalkozását, és azt hogy:
+-- 'Igen' ha a neve rövidebb a foglalkozásának hosszával, egyébként 'Nem'
+
+DECLARE
+    CURSOR CURS IS SELECT D1.DNEV ALKALMAZOTT, D2.DNEV FONOKE, D1.FOGLALKOZAS ALKFOG, D2.FOGLALKOZAS FonFog
+FROM DOLGOZO D1 JOIN DOLGOZO D2
+ON D1.FONOKE = D2.DKOD;
+    REC CURS%ROWTYPE;
+    I INTEGER := 0;
+    INPUT VARCHAR(15);
+    RET VARCHAR(4) := 'Nem';
+BEGIN
+    INPUT := :INPUT;
+    FOR REC IN CURS LOOP
+        IF(REC.FONOKE = INPUT) THEN
+            IF(LENGTH(REC.ALKALMAZOTT) < LENGTH(REC.ALKFOG)) THEN
+                RET := 'Igen';
+            END IF;
+            DBMS_OUTPUT.PUT_LINE(REC.ALKALMAZOTT || ' ' || REC.ALKFOG || ' ' || RET);
+        END IF;
+    END LOOP;
+END;
+/
+
+-- 4. feladat
