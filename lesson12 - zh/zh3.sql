@@ -103,3 +103,24 @@ END;
 /
 
 -- 4. feladat
+-- Kurzort használva írj PL/SQL procedure-t ZH4 névvel, ami paraméterként 
+-- átveszi az osztálynév utolsó két betûjét. A Dolgozó tábla minden elemének, 
+-- aki a paraméterben megadott osztályon dolgozik, és fizetése 
+-- eléri a 4000-et 15%-al növeli a fizetését!
+
+CREATE OR REPLACE PROCEDURE ZH4
+(INPUT IN VARCHAR)
+AS 
+    CURSOR CURS IS SELECT * FROM DOLGOZO NATURAL JOIN OSZTALY WHERE SUBSTR(ONEV, LENGTH(ONEV) - 1, 2) = INPUT AND FIZETES >= 4000 FOR UPDATE;
+    REC CURS%ROWTYPE;
+BEGIN
+    FOR REC IN CURS LOOP
+        DBMS_OUTPUT.PUT_LINE(REC.DNEV || ' Fizetes, before: ' || REC.FIZETES);
+        UPDATE DOLGOZO SET FIZETES = (FIZETES * 1.15) WHERE CURRENT OF CURS;
+    END LOOP;
+END;
+/
+CALL ZH4('NG');
+DBMS_OUTPUT.ENABLE;
+
+-- 5. feladat
